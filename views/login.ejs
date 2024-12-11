@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/log_reg.css">
+</head>
+<body>
+  <div class="frame">
+    <form method="POST" action="/auth/login">
+      <h1>Not So Good Character Builder</h1>
+      <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+      <% } %>
+      
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      
+      <button type="submit">Login</button>
+      
+      <a href="/auth/register">Register</a>
+    </form>
+  </div>
+</body>
+</html>
+
+
+

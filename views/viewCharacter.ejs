@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= character.name %> Details</title>
+  <link rel="stylesheet" href="/css/char.css">
+</head>
+<body>
+  <h1>Character: <%= character.name %></h1>
+
+  <form method="POST" action="/characters/edit/<%= character.id %>">
+    <div class="form-container">
+      <div class="column">
+        <div class="section">
+          <h2>Basic Info <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Character Name:</label>
+            <input type="text" name="name" value="<%= character.name %>" required><br>
+
+            <label>Class:</label>
+            <input type="text" name="class" value="<%= character.class %>" required id="class"><br>
+
+            <label>Level:</label>
+            <select name="level" required id="level">
+              <% for (let i = 1; i <= 20; i++) { %>
+                <option value="<%= i %>" <%= i === character.level ? "selected" : "" %>><%= i %></option>
+              <% } %>
+            </select><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Character Details <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Ancestry:</label>
+            <input type="text" name="ancestry" value="<%= character.ancestry %>" required><br>
+
+            <label>Heritage:</label>
+            <input type="text" name="heritage" value="<%= character.heritage %>"><br>
+
+            <label>Size:</label>
+            <% const sizes = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"]; %>
+            <select name="size" required>
+              <% sizes.forEach(sizeOption => { %>
+                <option value="<%= sizeOption %>" <%= character.size === sizeOption ? 'selected' : '' %>><%= sizeOption %></option>
+              <% }); %>
+            </select><br>
+
+            <label>Alignment:</label>
+            <% const alignments = ["Lawful Good", "Neutral Good", "Chaotic Good", "Lawful Neutral", "True Neutral", "Chaotic Neutral", "Lawful Evil", "Neutral Evil", "Chaotic Evil"]; %>
+            <select name="alignment" required>
+              <% alignments.forEach(alignmentOption => { %>
+                <option value="<%= alignmentOption %>" <%= character.alignment === alignmentOption ? 'selected' : '' %>><%= alignmentOption %></option>
+              <% }); %>
+            </select><br>
+
+            <label>Traits (comma-separated):</label>
+            <input type="text" name="traits" value="<%= character.traits %>"><br>
+
+            <label>Deity:</label>
+            <input type="text" name="deity" value="<%= character.deity %>"><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Hero Points <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details hero-points">
+            <label class="hero-point-label">
+              <input type="checkbox" name="hero_point_1" <%= character.hero_points && character.hero_points >= 1 ? "checked" : "" %>>
+              <span class="hero-point-circle"></span>
+            </label>
+            <label class="hero-point-label">
+              <input type="checkbox" name="hero_point_2" <%= character.hero_points && character.hero_points >= 2 ? "checked" : "" %>>
+              <span class="hero-point-circle"></span>
+            </label>
+            <label class="hero-point-label">
+              <input type="checkbox" name="hero_point_3" <%= character.hero_points && character.hero_points >= 3 ? "checked" : "" %>>
+              <span class="hero-point-circle"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Hit Points <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Max HP:</label>
+            <input type="number" name="max_hp" value="<%= character.max_hp %>" min="0" required id="max_hp" readonly class="readonly-field"><br>
+
+            <label>Current HP:</label>
+            <input type="number" name="current_hp" value="<%= character.current_hp %>" min="0" required><br>
+
+            <label>Temporary HP:</label>
+            <input type="number" name="temporary_hp" value="<%= character.temporary_hp %>" min="0"><br>
+
+            <label>Dying:</label>
+            <input type="number" name="dying" value="<%= character.dying %>" min="0"><br>
+
+            <label>Wounded:</label>
+            <input type="number" name="wounded" value="<%= character.wounded %>" min="0"><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>Ability Scores <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Strength Score:</label>
+            <input type="number" name="str_score" value="<%= character.str_score %>" required id="str_score"><br>
+            <label>Strength Modifier:</label>
+            <input type="number" name="str_modifier" value="<%= character.str_modifier %>" required id="str_modifier" readonly class="readonly-field"><br>
+
+            <label>Dexterity Score:</label>
+            <input type="number" name="dex_score" value="<%= character.dex_score %>" required id="dex_score"><br>
+            <label>Dexterity Modifier:</label>
+            <input type="number" name="dex_modifier" value="<%= character.dex_modifier %>" required id="dex_modifier" readonly class="readonly-field"><br>
+
+            <label>Constitution Score:</label>
+            <input type="number" name="con_score" value="<%= character.con_score %>" required id="con_score"><br>
+            <label>Constitution Modifier:</label>
+            <input type="number" name="con_modifier" value="<%= character.con_modifier %>" required id="con_modifier" readonly class="readonly-field"><br>
+
+            <label>Intelligence Score:</label>
+            <input type="number" name="int_score" value="<%= character.int_score %>" required id="int_score"><br>
+            <label>Intelligence Modifier:</label>
+            <input type="number" name="int_modifier" value="<%= character.int_modifier %>" required id="int_modifier" readonly class="readonly-field"><br>
+
+            <label>Wisdom Score:</label>
+            <input type="number" name="wis_score" value="<%= character.wis_score %>" required id="wis_score"><br>
+            <label>Wisdom Modifier:</label>
+            <input type="number" name="wis_modifier" value="<%= character.wis_modifier %>" required id="wis_modifier" readonly class="readonly-field"><br>
+
+            <label>Charisma Score:</label>
+            <input type="number" name="cha_score" value="<%= character.cha_score %>" required id="cha_score"><br>
+            <label>Charisma Modifier:</label>
+            <input type="number" name="cha_modifier" value="<%= character.cha_modifier %>" required id="cha_modifier" readonly class="readonly-field"><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Class DC <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Class DC Base:</label>
+            <input type="number" name="class_dc_base" value="<%= character.class_dc_base %>" required id="class_dc_base"><br>
+
+            <label>Class DC Key Ability:</label>
+            <select name="class_dc_key" required id="class_dc_key">
+              <option value="STR" <%= character.class_dc_key === 'STR' ? 'selected' : '' %>>Strength</option>
+              <option value="DEX" <%= character.class_dc_key === 'DEX' ? 'selected' : '' %>>Dexterity</option>
+              <option value="CON" <%= character.class_dc_key === 'CON' ? 'selected' : '' %>>Constitution</option>
+              <option value="INT" <%= character.class_dc_key === 'INT' ? 'selected' : '' %>>Intelligence</option>
+              <option value="WIS" <%= character.class_dc_key === 'WIS' ? 'selected' : '' %>>Wisdom</option>
+              <option value="CHA" <%= character.class_dc_key === 'CHA' ? 'selected' : '' %>>Charisma</option>
+            </select><br>
+
+            <label>Class DC Proficiency Bonus:</label>
+            <input type="number" name="class_dc_prof_bonus" value="<%= character.class_dc_prof_bonus %>" required id="class_dc_prof_bonus"><br>
+
+            <label>Class DC Item Bonus:</label>
+            <input type="number" name="class_dc_item_bonus" value="<%= character.class_dc_item_bonus %>" id="class_dc_item_bonus"><br>
+          </div>
+          <div class="section-total">
+            <label>Total Class DC:</label>
+            <input type="number" name="total_class_dc" value="0" readonly id="total_class_dc" class="readonly-field"><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Skills <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details scrollable-section">
+            <% const skills = [
+              "acrobatics", "arcana", "athletics", "crafting", "deception", 
+              "diplomacy", "intimidation", "lore1", "lore2", "medicine", 
+              "nature", "occultism", "performance", "religion", "society", 
+              "stealth", "survival", "thievery"
+            ]; %>
+            <% skills.forEach(skill => { %>
+              <div class="section">
+                <h3><%= skill.charAt(0).toUpperCase() + skill.slice(1) %> <button type="button" class="toggle-btn">-</button></h3>
+                <div class="section-details">
+                  <label>Modifier:</label>
+                  <input type="number" name="<%= skill %>_modifier" value="<%= character[skill + '_modifier'] %>" required id="<%= skill %>_modifier"><br>
+                  <label>Proficiency Bonus:</label>
+                  <input type="number" name="<%= skill %>_prof_bonus" value="<%= character[skill + '_prof_bonus'] %>" required id="<%= skill %>_prof_bonus"><br>
+                  <label>Item Bonus:</label>
+                  <input type="number" name="<%= skill %>_item_bonus" value="<%= character[skill + '_item_bonus'] %>" id="<%= skill %>_item_bonus"><br>
+                </div>
+                <div class="section-total">
+                  <label>Total <%= skill.charAt(0).toUpperCase() + skill.slice(1) %>:</label>
+                  <input type="number" name="<%= skill %>_total" value="0" readonly id="<%= skill %>_total" class="readonly-field"><br>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>Armor Class <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Base AC:</label>
+            <input type="number" name="base_ac" value="<%= character.base_ac %>" min="10" required id="base_ac"><br>
+
+            <label>Dexterity Modifier:</label>
+            <input type="number" name="dexterity_modifier" value="<%= character.dexterity_modifier %>" required readonly id="dexterity_modifier" class="readonly-field"><br>
+
+            <label>AC Cap:</label>
+            <input type="number" name="ac_cap" value="<%= character.ac_cap %>" required id="ac_cap"><br>
+
+            <label>Proficiency:</label>
+            <input type="number" name="ac_proficiency" value="<%= character.ac_proficiency %>" required id="ac_proficiency"><br>
+
+            <label>Unarmored Bonus:</label>
+            <input type="number" name="unarmored_bonus" value="<%= character.unarmored_bonus %>" required id="unarmored_bonus"><br>
+
+            <label>Light Armor Bonus:</label>
+            <input type="number" name="light_armor_bonus" value="<%= character.light_armor_bonus %>" required id="light_armor_bonus"><br>
+
+            <label>Medium Armor Bonus:</label>
+            <input type="number" name="medium_armor_bonus" value="<%= character.medium_armor_bonus %>" required id="medium_armor_bonus"><br>
+
+            <label>Heavy Armor Bonus:</label>
+            <input type="number" name="heavy_armor_bonus" value="<%= character.heavy_armor_bonus %>" required id="heavy_armor_bonus"><br>
+
+            <label>Item Bonus to AC:</label>
+            <input type="number" name="ac_item_bonus" value="<%= character.ac_item_bonus %>" required id="ac_item_bonus"><br>
+          </div>
+          <div class="section-total">
+            <label>Total Armor Class (AC):</label>
+            <input type="number" name="total_ac" value="0" readonly id="total_ac" class="readonly-field"><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Shield <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Shield Bonus:</label>
+            <input type="number" name="shield_bonus" value="<%= character.shield_bonus %>" required id="shield_bonus"><br>
+
+            <label>Shield Hardness:</label>
+            <input type="number" name="shield_hardness" value="<%= character.shield_hardness %>" required><br>
+
+            <label>Shield Max HP:</label>
+            <input type="number" name="shield_max_hp" value="<%= character.shield_max_hp %>" required><br>
+
+            <label>Shield Current HP:</label>
+            <input type="number" name="shield_current_hp" value="<%= character.shield_current_hp %>" required><br>
+
+            <label>Shield Break Threshold (BT):</label>
+            <input type="number" name="shield_bt" value="<%= character.shield_bt %>" required><br>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Perception <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section-details">
+            <label>Wisdom Modifier:</label>
+            <input type="number" name="perception_wis_modifier" value="<%= character.perception_wis_modifier %>" required id="perception_wis_modifier" class="readonly-field"><br>
+            <label>Proficiency Bonus:</label>
+            <input type="number" name="perception_prof_bonus" value="<%= character.perception_prof_bonus %>" required id="perception_prof_bonus"><br>
+            <label>Item Bonus:</label>
+            <input type="number" name="perception_item_bonus" value="<%= character.perception_item_bonus %>" id="perception_item_bonus"><br>
+          </div>
+          <div class="section-total">
+            <label>Total Perception:</label>
+            <input type="number" name="perception_total" value="0" readonly id="perception_total" class="readonly-field"><br>
+          </div>
+          <div class="section-details">
+            <label>Senses:</label>
+            <input type="text" name="senses" value="<%= character.senses %>"><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <h2>Saving Throws <button type="button" class="toggle-btn">-</button></h2>
+          <div class="section">
+            <h3>Fortitude <button type="button" class="toggle-btn">-</button></h3>
+            <div class="section-details">
+              <label>Constitution Modifier:</label>
+              <input type="number" name="fortitude_con_modifier" value="<%= character.fortitude_con_modifier %>" required id="fortitude_con_modifier" class="readonly-field"><br>
+
+              <label>Proficiency:</label>
+              <input type="number" name="fortitude_proficiency" value="<%= character.fortitude_proficiency %>" required id="fortitude_proficiency"><br>
+
+              <label>Item Bonus:</label>
+              <input type="number" name="fortitude_item_bonus" value="<%= character.fortitude_item_bonus %>" required id="fortitude_item_bonus"><br>
+
+              <label>Other Modifiers:</label>
+              <input type="number" name="fortitude_other_modifier" value="<%= character.fortitude_other_modifier %>" required id="fortitude_other_modifier"><br>
+            </div>
+            <div class="section-total">
+              <label>Total Fortitude:</label>
+              <input type="number" name="fortitude_total" value="0" readonly id="fortitude_total" class="readonly-field"><br>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Reflex <button type="button" class="toggle-btn">-</button></h3>
+            <div class="section-details">
+              <label>Dexterity Modifier:</label>
+              <input type="number" name="reflex_dex_modifier" value="<%= character.reflex_dex_modifier %>" required id="reflex_dex_modifier" class="readonly-field"><br>
+
+              <label>Proficiency:</label>
+              <input type="number" name="reflex_proficiency" value="<%= character.reflex_proficiency %>" required id="reflex_proficiency"><br>
+
+              <label>Item Bonus:</label>
+              <input type="number" name="reflex_item_bonus" value="<%= character.reflex_item_bonus %>" required id="reflex_item_bonus"><br>
+
+              <label>Other Modifiers:</label>
+              <input type="number" name="reflex_other_modifier" value="<%= character.reflex_other_modifier %>" required id="reflex_other_modifier"><br>
+            </div>
+            <div class="section-total">
+              <label>Total Reflex:</label>
+              <input type="number" name="reflex_total" value="0" readonly id="reflex_total" class="readonly-field"><br>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Will <button type="button" class="toggle-btn">-</button></h3>
+            <div class="section-details">
+              <label>Wisdom Modifier:</label>
+              <input type="number" name="will_wis_modifier" value="<%= character.will_wis_modifier %>" required id="will_wis_modifier" class="readonly-field"><br>
+
+              <label>Proficiency:</label>
+              <input type="number" name="will_proficiency" value="<%= character.will_proficiency %>" required id="will_proficiency"><br>
+
+              <label>Item Bonus:</label>
+              <input type="number" name="will_item_bonus" value="<%= character.will_item_bonus %>" required id="will_item_bonus"><br>
+
+              <label>Other Modifiers:</label>
+              <input type="number" name="will_other_modifier" value="<%= character.will_other_modifier %>" required id="will_other_modifier"><br>
+            </div>
+            <div class="section-total">
+              <label>Total Will:</label>
+              <input type="number" name="will_total" value="0" readonly id="will_total" class="readonly-field"><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="full-width-section">
+      <div class="section">
+        <h2>Languages <button type="button" class="toggle-btn">-</button></h2>
+        <div class="section-details">
+          <label>Languages (comma-separated):</label>
+          <input type="text" name="languages" value="<%= character.languages %>"><br>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Notes <button type="button" class="toggle-btn">-</button></h2>
+        <div class="section-details">
+          <textarea name="notes" rows="5" cols="50"><%= character.notes %></textarea><br>
+        </div>
+      </div>
+    </div>
+
+    <div class="full-width">
+      <button type="submit">Save Changes</button>
+      <a href="/characters/dashboard">Back to Dashboard</a>
+    </div>
+  </form>
+
+  <form method="POST" action="/characters/delete/<%= character.id %>" style="margin-top: 20px;">
+    <button type="submit" onclick="return confirm('Are you sure you want to delete this character?');">Delete Character</button>
+  </form>
+
+  <script>
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sectionTitle = btn.closest('h2, h3');
+        if (!sectionTitle) return;
+        const parentSection = sectionTitle.parentElement;
+        const details = parentSection.querySelector('.section-details');
+        if (details) {
+          if (details.style.display === 'none') {
+            details.style.display = 'block';
+            btn.textContent = '-';
+          } else {
+            details.style.display = 'none';
+            btn.textContent = '+';
+          }
+        }
+      });
+    });
+  </script>
+  <script src="/js/character.js"></script>
+</body>
+</html>
+
+

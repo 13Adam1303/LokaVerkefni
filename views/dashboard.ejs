@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/dash.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Not So Good Character Builder</h1>
+    <a href="/auth/logout" class="logout-btn">Logout</a>
+  </div>
+  <div class="container">
+    <h2>Your Characters</h2>
+    <% if (characters.length === 0) { %>
+      <p>No characters created yet. <a href="/characters/create" class="action-link">Create your first character</a></p>
+    <% } else { %>
+      <div class="character-list-wrapper">
+        <ul class="character-list">
+          <% characters.forEach((character) => { %>
+            <li>
+              <a href="/characters/<%= character.id %>"><%= character.name %></a>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+      <a href="/characters/create" class="action-link">Create a New Character</a>
+    <% } %>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

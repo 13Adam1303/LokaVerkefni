@@ -1,0 +1,14 @@
+
+# Not So Good Character Builder
+
+This is a character builder web site designed to help create and manage character sheets.
+
+
+## code languages used 
+
+- Frontend: CSS, EJS templates.
+- Backend: Node.js, Express.js for server logic.
+- Database: SQLite (better-sqlite3) for storing user and character data.
+- Security: Bcrypt for password hashing.
+- User management: Express-session for handling user sessions.
+
